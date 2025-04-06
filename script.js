@@ -16,6 +16,7 @@ let selectedCategory = 'school'; // Default category
 let customVocabularySets = {}; // Store multiple custom vocabulary sets
 let currentCustomSet = ''; // Track current selected custom set
 
+
 const letterCardsContainer = document.getElementById('letter-cards');
 const selectedLettersContainer = document.getElementById('selected-letters');
 const submitGuessButton = document.getElementById('submit-guess');
@@ -37,8 +38,9 @@ const closeSettingsButton = document.getElementById('close-settings');
 const vocabularySourceSelect = document.getElementById('vocabulary-source');
 const categoriesSelect = document.getElementById('categories-select'); // New category selector
 
-let customVocabularySets = {}; // Store multiple custom vocabulary sets
-let currentCustomSet = ''; // Track current selected custom set
+loadCustomVocabularySets();
+loadVocabularySettings();
+populateCategoriesDropdown();
 
 // Load custom vocabulary sets from local storage
 function loadCustomVocabularySets() {
@@ -51,6 +53,19 @@ function loadCustomVocabularySets() {
 // Save custom vocabulary sets to local storage
 function saveCustomVocabularySets() {
   localStorage.setItem('customVocabularySets', JSON.stringify(customVocabularySets));
+}
+
+function populateCategoriesDropdown() {
+  if (categoriesSelect) {
+    categoriesSelect.innerHTML = '';
+    Object.keys(vocabularyCategories).forEach(category => {
+      const option = document.createElement('option');
+      option.value = category;
+      option.textContent = category.charAt(0).toUpperCase() + category.slice(1); // Capitalize first letter
+      categoriesSelect.appendChild(option);
+    });
+    categoriesSelect.value = selectedCategory;
+  }
 }
 
 // Update the settings modal functions
@@ -74,6 +89,28 @@ function openSettings() {
   
   // Update textarea with current set content
   vocabularyTextarea.value = currentCustomSet ? customVocabularySets[currentCustomSet].join('\n') : '';
+}
+
+function loadVocabularySettings() {
+  const storedSource = localStorage.getItem('vocabularySource');
+  if (storedSource) {
+    vocabularySource = storedSource;
+    vocabularySourceSelect.value = storedSource;
+  }
+  
+  const storedCategory = localStorage.getItem('selectedCategory');
+  if (storedCategory) {
+    selectedCategory = storedCategory;
+    if (categoriesSelect) {
+      categoriesSelect.value = storedCategory;
+    }
+  }
+}
+
+// Save vocabulary source and category to local storage
+function saveVocabularySettings() {
+  localStorage.setItem('vocabularySource', vocabularySource);
+  localStorage.setItem('selectedCategory', selectedCategory);
 }
 
 function saveSettings() {
@@ -113,25 +150,6 @@ vocabularySourceSelect.addEventListener('change', function() {
   }
 });
 
-// Initialize the modal display
-document.addEventListener('DOMContentLoaded', function() {
-loadCustomVocabularySets(); 
-  const categorySelection = document.getElementById('category-selection');
-  const customVocabularySelection = document.getElementById('custom-vocabulary-selection');
-  
-  if (vocabularySourceSelect.value === 'builtin') {
-    categorySelection.style.display = 'block';
-    customVocabularySelection.style.display = 'none';
-  } else {
-    categorySelection.style.display = 'none';
-    customVocabularySelection.style.display = 'block';
-  }
-  
-  // Update page background based on selected category
-  document.body.className = '';
-  document.body.classList.add('category-' + selectedCategory);
-});
-
 // Update getRandomWord function
 function getRandomWord() {
   let wordList;
@@ -149,6 +167,41 @@ function getRandomWord() {
   
   const randomIndex = Math.floor(Math.random() * wordList.length);
   return wordList[randomIndex];
+}
+
+function scrambleWord(word) {
+  const wordArray = word.split('');
+  for (let i = wordArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
+  }
+  return wordArray;
+}
+
+function displayLetterCards(letters) {
+  letterCardsContainer.innerHTML = '';
+  letterCards = letters.map((letter, index) => {
+    const card = document.createElement('div');
+    card.classList.add('letter-card');
+    card.textContent = letter;
+    card.dataset.letter = letter; 
+    card.addEventListener('click', moveLetter);
+    letterCardsContainer.appendChild(card);
+    return card;
+  });
+}
+
+function moveLetter(event) {
+  const card = event.target;
+  const letter = card.dataset.letter;
+
+  if (card.parentNode.id === 'letter-cards') {
+    selectedLettersContainer.appendChild(card);
+    selectedLetters.push(card); 
+  } else {
+    letterCardsContainer.appendChild(card);
+    selectedLetters = selectedLetters.filter(c => c !== card); 
+  }
 }
 
 // Add back to home function
@@ -329,16 +382,7 @@ if (categoriesSelect) {
   });
 }
 
-import ConfettiGenerator from 'https://cdn.jsdelivr.net/npm/confetti-js/+esm'
-
-vocabularySourceSelect.addEventListener('change', function() {
-  const categorySelection = document.getElementById('category-selection');
-  if (this.value === 'builtin') {
-    categorySelection.style.display = 'block';
-  } else {
-    categorySelection.style.display = 'none';
-  }
-});
+import ConfettiGenerator from 'https://cdn.jsdelivr.net/npm/confetti-js/+esm';
 
 // Set initial display state
 document.addEventListener('DOMContentLoaded', function() {
