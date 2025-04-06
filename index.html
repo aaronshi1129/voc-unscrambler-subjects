@@ -1,0 +1,88 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocabulary Unscrambler</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+
+<body>
+  <div id="particles-js"></div>
+  <div class="container">
+    <h1>Vocabulary Unscrambler</h1>
+    <div id="timer">Time: <span id="time">00:00</span></div>
+    <div id="score">Score: 0</div>
+    <div id="message"></div>
+    <div id="letter-cards">
+    </div>
+    <div id="selected-letters"></div>
+    <button id="start-game">Start</button>
+    <button id="submit-guess" disabled style="display: none;">Submit</button>
+    <button id="skip-word" style="display: none;">Skip</button>
+    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+      <button id="settings-button">Settings</button>
+      <button id="toggle-directions">Directions</button>
+    </div>
+    <div id="directions" style="display: none;">
+      <p>1. Unscramble the letters to form a valid vocabulary word. Click on the letter cards to move them to the selected letters area. Submit your guess and see if you are correct!</p>
+      <p>2. This unscrambler ends when you successfully unscramble 10 words. You can compete with others by comparing how much time you spend unscrambling 10 words successfully.</p>
+      <p>3. Click Settings to import customized vocabulary bank. One word per line. It is recommended to have at least 10 words. The customized vocabulary bank is only saved in the local browser cache.</p>
+    </div>
+    <div id="finalCongratulations" style="display: none;">
+      <h2>👏Congratulations!👏</h2>
+      <p id="finalMessage"></p>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+<div id="settings-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="close-settings">&times;</span>
+    <h2>Customize Vocabulary</h2>
+
+    <!-- Vocabulary Source Option -->
+    <label for="vocabulary-source">Vocabulary Source:</label>
+    <select id="vocabulary-source">
+      <option value="builtin">Built-in Vocabulary</option>
+      <option value="custom">Custom Vocabulary</option>
+    </select>
+
+    <!-- New Category Selector (only visible when built-in is selected) -->
+    <div id="category-selection" style="margin-top: 15px;">
+      <label for="categories-select">Select Category:</label>
+      <select id="categories-select">
+        <!-- This will be populated from JavaScript -->
+      </select>
+    </div>
+
+    <label for="vocabulary-textarea">Enter each word on a new line:</label>
+    <textarea id="vocabulary-textarea" rows="10" cols="30"></textarea>
+    <button id="save-settings">Save Settings</button>
+  </div>
+</div>
+
+  <div class="footer">
+    <p>Author: Aaron Shi. Released in 2025. V2.</p>
+  </div>
+  <div id="confetti-canvas"></div>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script type="module" src="script.js"></script>
+  <script>
+    particlesJS.load('particles-js', 'particles.json', function() {
+      console.log('particles.json loaded...');
+    });
+
+    document.getElementById('toggle-directions').addEventListener('click', function() {
+      var directions = document.getElementById('directions');
+      directions.style.display = directions.style.display === 'none' ? 'block' : 'none';
+      this.textContent = directions.style.display === 'none' ? 'Directions' : 'Hide Directions';
+    });
+  </script>
+</body>
+
+</html>
