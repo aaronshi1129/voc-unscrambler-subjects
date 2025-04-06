@@ -379,11 +379,11 @@ body.category-geography {
 }
 
 body.category-physics {
-  background-image: url('physics.jpg');
+  background-image: url('physics.jpeg');
 }
 
 body.category-chemistry {
-  background-image: url('chemistry.jpg');
+  background-image: url('chemistry.jpeg');
 }
 
 body.category-earth-science {
@@ -391,9 +391,9 @@ body.category-earth-science {
 }
 
 body.category-art {
-  background-image: url('art.jpg');
+  background-image: url('art.jpeg');
 }
 
 body.category-PE {
-  background-image: url('PE.jpg');
+  background-image: url('PE.jpeg');
 }
