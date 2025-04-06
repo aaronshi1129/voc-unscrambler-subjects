@@ -13,6 +13,8 @@ let gameStarted = false;
 let customVocabulary = []; // Add custom vocabulary
 let vocabularySource = 'builtin'; // Default to built-in vocabulary
 let selectedCategory = 'school'; // Default category
+let customVocabularySets = {}; // Store multiple custom vocabulary sets
+let currentCustomSet = ''; // Track current selected custom set
 
 const letterCardsContainer = document.getElementById('letter-cards');
 const selectedLettersContainer = document.getElementById('selected-letters');
@@ -113,6 +115,7 @@ vocabularySourceSelect.addEventListener('change', function() {
 
 // Initialize the modal display
 document.addEventListener('DOMContentLoaded', function() {
+loadCustomVocabularySets(); 
   const categorySelection = document.getElementById('category-selection');
   const customVocabularySelection = document.getElementById('custom-vocabulary-selection');
   
@@ -194,7 +197,6 @@ function startGame() {
   skipWordButton.style.display = 'inline-block'; 
   backToHomeButton.style.display = 'inline-block';
   settingsButton.style.display = 'none';
-  settingsButton.style.display = 'none'; 
   currentWord = getRandomWord();
   const scrambledLetters = scrambleWord(currentWord);
   displayLetterCards(scrambledLetters);
@@ -308,29 +310,10 @@ function stopConfetti() {
   finalCongratulationsDisplay.style.display = 'none';
 }
 
-function openSettings() {
-  settingsModal.style.display = 'block';
-  vocabularyTextarea.value = customVocabulary.join('\n');
-}
-
 function closeSettings() {
   settingsModal.style.display = 'none';
 }
 
-function saveSettings() {
-  const newVocabulary = vocabularyTextarea.value.split('\n').filter(word => word.trim() !== '');
-  customVocabulary = newVocabulary;
-  vocabularySource = vocabularySourceSelect.value;
-  
-  // Save selected category if available
-  if (categoriesSelect) {
-    selectedCategory = categoriesSelect.value;
-  }
-  
-  saveCustomVocabulary();
-  saveVocabularySettings();
-  closeSettings();
-}
 
 submitGuessButton.addEventListener('click', checkGuess);
 startGameButton.addEventListener('click', startGame);
@@ -359,6 +342,7 @@ vocabularySourceSelect.addEventListener('change', function() {
 
 // Set initial display state
 document.addEventListener('DOMContentLoaded', function() {
+  loadCustomVocabularySets(); 
   const categorySelection = document.getElementById('category-selection');
   if (vocabularySourceSelect.value === 'builtin') {
     categorySelection.style.display = 'block';
