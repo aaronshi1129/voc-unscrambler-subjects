@@ -326,7 +326,7 @@ export const vocabularyCategories = {
   "state",
   "suffrage"
 ],
-  civic-education: [
+  civiceducation: [
   "activism",
   "amendment",
   "anarchy",
@@ -648,7 +648,7 @@ export const vocabularyCategories = {
   "water",
   "zinc"
 ],
-  earth-science: [
+  earth: [
   "accretion",
   "activity",
   "airmass",
