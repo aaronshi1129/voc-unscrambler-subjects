@@ -24,7 +24,6 @@
     <button id="start-game">Start</button>
     <button id="submit-guess" disabled style="display: none;">Submit</button>
     <button id="skip-word" style="display: none;">Skip</button>
-    <button id="back-to-home" style="display: none;">Back to Home</button>
     <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
       <button id="settings-button">Settings</button>
       <button id="toggle-directions">Directions</button>
@@ -53,16 +52,6 @@
       <option value="custom">Custom Vocabulary</option>
     </select>
 
-    <!-- Custom vocabulary set selection (only visible when custom is selected) -->
-    <div id="custom-vocabulary-selection" style="margin-top: 15px; display: none;">
-      <label for="vocabulary-sets-select">Select Vocabulary Set:</label>
-      <select id="vocabulary-sets-select">
-        <!-- Will be populated from JavaScript -->
-      </select>
-      <label for="vocabulary-set-name" style="margin-top: 10px;">Set Name:</label>
-      <input type="text" id="vocabulary-set-name" placeholder="Enter a name for this set" style="width: 100%; padding: 8px; margin-bottom: 10px;">
-    </div>
-
     <!-- New Category Selector (only visible when built-in is selected) -->
     <div id="category-selection" style="margin-top: 15px;">
       <label for="categories-select">Select Category:</label>
@@ -78,7 +67,10 @@
 </div>
 
   <div class="footer">
-    <p>Author: Aaron Shi. Released in 2025. V3.1.</p>
+    <p>Author: Aaron Shi. Released in April 2025. V3.  <a href="https://sites.google.com/view/aaronshi/" target="_blank" style="vertical-align: middle; margin-left: 10px;">
+    <img src="https://alittlemoreenglish.weebly.com/uploads/2/6/6/3/26638990/favicon-32x32_orig.png" alt="A Little More English" style="width: 24px; height: 24px; vertical-align: middle;">
+  </a></p>
+
   </div>
   <div id="confetti-canvas"></div>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
